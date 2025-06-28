@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <title>3D Viewer</title>
-  <!-- Voyager web component -->
-  <script
-    type="module"
-    src="https://cdn.jsdelivr.net/npm/@smithsonian/dpo-voyager/dist/voyager.js"
-  ></script>
+
+  <!--
+    THIS SCRIPT TAG IS CRITICAL:
+    It loads the Smithsonian Voyager component
+  -->
+  <script type="module"
+    src="https://cdn.jsdelivr.net/npm/@smithsonian/dpo-voyager/dist/voyager.js">
+  </script>
+
   <style>
-    body { margin: 0; overflow: hidden; }
-    voyager-explorer { width: 100vw; height: 100vh; display: block; }
+    body { margin:0; overflow:hidden; }
+    voyager-explorer { width:100vw; height:100vh; display:block; }
     .toolbar {
-      position: absolute; top: 1rem; right: 1rem;
+      position: absolute;
+      top: 1rem; right: 1rem;
       display: flex; flex-direction: column;
       gap: 0.5rem;
     }
-    .toolbar button { padding: 0.5rem 1rem; }
+    .toolbar button { padding:0.5rem 1rem; }
   </style>
 </head>
+
 <body>
+  <!-- This is your 3D canvas -->
   <voyager-explorer
     id="viewer"
     root="./"
@@ -27,6 +34,7 @@
     aria-label="3D Model Viewer">
   </voyager-explorer>
 
+  <!-- Your control buttons -->
   <div class="toolbar">
     <button onclick="viewer.toggleMeasurement()">Measure</button>
     <button onclick="viewer.toggleAnnotations()">POIs</button>
@@ -35,10 +43,10 @@
     <button onclick="viewer.enableAR()">View in AR</button>
   </div>
 
+  <!-- This script drives the HDRI switch, etc. -->
   <script>
     const viewer = document.getElementById('viewer');
 
-    // Switch between SVX lights vs HDRI environment
     function setLightMode(mode) {
       if (mode === 'hdri') {
         viewer.dispatchEvent(new CustomEvent('use-hdri'));
@@ -47,15 +55,13 @@
       }
     }
 
-    // When HDRI is requested, inject the environment map
     viewer.addEventListener('use-hdri', () => {
       viewer.addEventListener('model-load', () => {
-        const scene = viewer.scene;
         new THREE.RGBELoader()
           .setDataType(THREE.UnsignedByteType)
           .load('rainforest_trail_2k.hdr', tex => {
             tex.mapping = THREE.EquirectangularReflectionMapping;
-            scene.environment = tex;
+            viewer.scene.environment = tex;
           });
       }, { once: true });
     });
