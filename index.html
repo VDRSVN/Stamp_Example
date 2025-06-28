@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>3D Viewer</title>
+  <!-- Voyager web component -->
   <script type="module"
     src="https://cdn.jsdelivr.net/npm/@smithsonian/dpo-voyager/dist/voyager.js">
   </script>
@@ -21,7 +22,6 @@
 <body>
   <voyager-explorer
     id="viewer"
-    root="./"
     document="scene.json"
     aria-label="3D Model Viewer">
   </voyager-explorer>
@@ -31,11 +31,13 @@
     <button onclick="viewer.toggleAnnotations()">POIs</button>
     <button onclick="setLightMode('svx')">General Light</button>
     <button onclick="setLightMode('hdri')">HDRI</button>
+    <button onclick="viewer.enableAR()">View in AR</button>
   </div>
 
   <script>
     const viewer = document.getElementById('viewer');
 
+    // Switch between SVX lights vs HDRI environment
     function setLightMode(mode) {
       if (mode === 'hdri') {
         viewer.dispatchEvent(new CustomEvent('use-hdri'));
@@ -44,17 +46,10 @@
       }
     }
 
+    // When HDRI is requested, inject the environment map
     viewer.addEventListener('use-hdri', () => {
       viewer.addEventListener('model-load', () => {
         const scene = viewer.scene;
         new THREE.RGBELoader()
           .setDataType(THREE.UnsignedByteType)
-          .load('rainforest_trail_2k.hdr', tex => {
-            tex.mapping = THREE.EquirectangularReflectionMapping;
-            scene.environment = tex;
-          });
-      }, { once: true });
-    });
-  </script>
-</body>
-</html>
+          .load('./rainforest_tra_
