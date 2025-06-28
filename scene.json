@@ -1,9 +1,13 @@
 {
-  "asset": { "version": "1.0" },
+  "asset": {
+    "version": "1.0"
+  },
   "root": {
     "type": "Model",
-    "url": "./stamp_02.glb",
-    "options": { "applyModifiers": true }
+    "url": "stamp_02.glb",
+    "options": {
+      "applyModifiers": true
+    }
   },
   "lights": [
     { "type": "ambient",    "color": [1,1,1], "intensity": 0.5 },
