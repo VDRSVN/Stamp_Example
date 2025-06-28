@@ -52,4 +52,12 @@
         const scene = viewer.scene;
         new THREE.RGBELoader()
           .setDataType(THREE.UnsignedByteType)
-          .load('./rainforest_tra_
+          .load('./rainforest_trail_2k.hdr', tex => {
+            tex.mapping = THREE.EquirectangularReflectionMapping;
+            scene.environment = tex;
+          });
+      }, { once: true });
+    });
+  </script>
+</body>
+</html>
