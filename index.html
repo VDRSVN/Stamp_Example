@@ -16,10 +16,7 @@
     html,body{margin:0;height:100%;background:#111}
     voyager-explorer{width:100%;height:100%}
 
-    /* scale the hamburger icon on phone/desktop */
     voyager-explorer::part(menu-button){--voyager-icon-size:6vmin}
-
-    /* darker pop-ups */
     voyager-explorer::part(annotation-popover){
       background:rgba(20,20,20,.9);
       --voyager-text-color:#ececec;
@@ -29,7 +26,6 @@
 </head>
 <body>
 
-<!-- ********  THIS tag was the part that broke  ******** -->
 <voyager-explorer
         id="viewer"
         document="scene/scene.svx.json"
@@ -38,9 +34,7 @@
         logo="assets/placeholder-logo.svg"
         autoLaunch="annotations">
 </voyager-explorer>
-<!-- ***************************************************** -->
 
-<!-- optional helper buttons -->
 <div style="position:fixed;bottom:14px;left:14px;z-index:999">
   <button onclick="toggleTexture()">texture ⇄</button>
   <button onclick="toggleHDR()">light ⇄</button>
@@ -49,18 +43,13 @@
 <script type="module">
   const v = document.getElementById('viewer');
 
-  /* toggle material set 0 ↔︎ 1 */
-  let texOn = true;
-  function toggleTexture(){
-    v.setMaterialSet(texOn ? 1 : 0);
-    texOn = !texOn;
-  }
+  let texOn=true;
+  function toggleTexture(){ v.setMaterialSet(texOn?1:0); texOn=!texOn; }
 
-  /* toggle HDRI on/off (add a real .hdr later) */
-  let hdrOn = false;
+  let hdrOn=false;
   function toggleHDR(){
     v.environmentImage = hdrOn ? null : 'scene/hdr/yourHDR.hdr';
-    hdrOn = !hdrOn;
+    hdrOn=!hdrOn;
   }
 </script>
 
