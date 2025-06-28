@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+
+  <title>Voyager – Stamp Demo</title>
+
+  <!-- 1. Load Voyager Explorer from the public CDN -->
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/@smithsonian/voyager-explorer/+esm">
+  </script>
+
+  <!-- 2. Quick styling hooks -->
+  <style>
+    html,body{margin:0;height:100%;background:#111}
+    voyager-explorer{width:100%;height:100%}
+
+    /*  ——— OPTIONAL LOOK & FEEL TWEAKS ——— */
+
+    /* Make the hamburger/menu icon auto-scale on phone & desktop */
+    voyager-explorer::part(menu-button){
+        --voyager-icon-size:6vmin;   /* 6 % of the viewport’s smaller side */
+    }
+
+    /* Darker pop-up background + light text */
+    voyager-explorer::part(annotation-popover){
+        background:rgba(20,20,20,.90);
+        --voyager-text-color:#ededed;
+    }
+
+    /* Top bar colour & logo space */
+    voyager-explorer::part(top-bar){background:#151515}
+  </style>
+</head>
+<body>
+
+<!-- 3. The viewer itself -->
+<voyager-explorer id="viewer"
+      document="scene/scene.svx.json"
+
+      title="Wax Stamp"
+      logo="assets/placeholder-logo.svg"   <!--  swap later  -->
+
+      uiMode="menu title logo annotations measurement slice"
+      autoLaunch="annotations">
+</voyager-explorer>
+
+<!-- 4. Example extra buttons (texture / light toggle) -->
+<div style="position:fixed;bottom:14px;left:14px;z-index:999">
+  <button onclick="toggleTexture()">texture ⇄</button>
+  <button onclick="toggleHDR()">light ⇄</button>
+</div>
+
+<script type="module">
+/* ------- JS hooks to talk to the component -------- */
+const v = document.getElementById('viewer');
+
+/* swap between material sets: 0 = textured, 1 = no-texture */
+let texOn=true;
+function toggleTexture(){
+  v.setMaterialSet(texOn?1:0);
+  texOn=!texOn;
+}
+
+/* swap HDRI on/off (none set yet, so this just toggles default light) */
+let hdrOn=false;
+function toggleHDR(){
+  v.environmentImage = hdrOn?null:'scene/hdr/yourHDR.hdr';
+  hdrOn=!hdrOn;
+}
+</script>
+
+</body>
+</html>
