@@ -4,12 +4,11 @@
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,user-scalable=no"/>
-
   <title>Voyager — Stamp Example</title>
 
-  <!-- Voyager viewer -->
+  <!-- ✅ Correct CDN path: GitHub repo build, not npm -->
   <script type="module"
-          src="https://cdn.jsdelivr.net/npm/@smithsonian/voyager-explorer/+esm">
+          src="https://cdn.jsdelivr.net/gh/Smithsonian/dpo-voyager@master/packages/explorer/dist/voyager-explorer.js">
   </script>
 
   <style>
@@ -35,6 +34,7 @@
         autoLaunch="annotations">
 </voyager-explorer>
 
+<!-- helper buttons -->
 <div style="position:fixed;bottom:14px;left:14px;z-index:999">
   <button onclick="toggleTexture()">texture ⇄</button>
   <button onclick="toggleHDR()">light ⇄</button>
@@ -43,13 +43,13 @@
 <script type="module">
   const v = document.getElementById('viewer');
 
-  let texOn=true;
-  function toggleTexture(){ v.setMaterialSet(texOn?1:0); texOn=!texOn; }
+  let texOn = true;
+  function toggleTexture(){ v.setMaterialSet(texOn ? 1 : 0); texOn = !texOn; }
 
-  let hdrOn=false;
+  let hdrOn = false;
   function toggleHDR(){
     v.environmentImage = hdrOn ? null : 'scene/hdr/yourHDR.hdr';
-    hdrOn=!hdrOn;
+    hdrOn = !hdrOn;
   }
 </script>
 
