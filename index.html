@@ -2,73 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport"
-        content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0,user-scalable=no"/>
 
-  <title>Voyager – Stamp Demo</title>
+  <title>Voyager — Stamp Example</title>
 
-  <!-- 1. Load Voyager Explorer from the public CDN -->
+  <!-- Voyager Explorer (full UI build) -->
   <script type="module"
           src="https://cdn.jsdelivr.net/npm/@smithsonian/voyager-explorer/+esm">
   </script>
 
-  <!-- 2. Quick styling hooks -->
+  <!-- Quick look-&-feel tweaks -->
   <style>
     html,body{margin:0;height:100%;background:#111}
     voyager-explorer{width:100%;height:100%}
 
-    /*  ——— OPTIONAL LOOK & FEEL TWEAKS ——— */
+    /* scale menu (hamburger) icon responsively */
+    voyager-explorer::part(menu-button){--voyager-icon-size:6vmin}
 
-    /* Make the hamburger/menu icon auto-scale on phone & desktop */
-    voyager-explorer::part(menu-button){
-        --voyager-icon-size:6vmin;   /* 6 % of the viewport’s smaller side */
-    }
-
-    /* Darker pop-up background + light text */
+    /* darker pop-up background & light text */
     voyager-explorer::part(annotation-popover){
-        background:rgba(20,20,20,.90);
-        --voyager-text-color:#ededed;
+      background:rgba(20,20,20,.9);
+      --voyager-text-color:#ececec;
     }
 
-    /* Top bar colour & logo space */
+    /* top bar colour */
     voyager-explorer::part(top-bar){background:#151515}
   </style>
 </head>
 <body>
 
-<!-- 3. The viewer itself -->
-<voyager-explorer id="viewer"
-      document="scene/scene.svx.json"
-
-      title="Wax Stamp"
-      logo="assets/placeholder-logo.svg"   <!--  swap later  -->
-
+<!-- Voyager viewer -->
+<voyager-explorer  id="viewer"
+      document="scene/scene.svx.json"          <!--  ← correct path  -->
       uiMode="menu title logo annotations measurement slice"
+      title="Wax Stamp"
+      logo="assets/placeholder-logo.svg"       <!-- swap your own file later -->
       autoLaunch="annotations">
 </voyager-explorer>
 
-<!-- 4. Example extra buttons (texture / light toggle) -->
+<!-- Optional extra buttons -->
 <div style="position:fixed;bottom:14px;left:14px;z-index:999">
   <button onclick="toggleTexture()">texture ⇄</button>
   <button onclick="toggleHDR()">light ⇄</button>
 </div>
 
 <script type="module">
-/* ------- JS hooks to talk to the component -------- */
+/* Helper hooks */
 const v = document.getElementById('viewer');
 
-/* swap between material sets: 0 = textured, 1 = no-texture */
+/* texture on/off between material set 0 and 1 */
 let texOn=true;
 function toggleTexture(){
-  v.setMaterialSet(texOn?1:0);
-  texOn=!texOn;
+  v.setMaterialSet(texOn?1:0); texOn=!texOn;
 }
 
-/* swap HDRI on/off (none set yet, so this just toggles default light) */
+/* HDRI on/off (add your .hdr later) */
 let hdrOn=false;
 function toggleHDR(){
-  v.environmentImage = hdrOn?null:'scene/hdr/yourHDR.hdr';
-  hdrOn=!hdrOn;
+  v.environmentImage = hdrOn ? null : 'scene/hdr/yourHDR.hdr';
+  hdrOn = !hdrOn;
 }
 </script>
 
